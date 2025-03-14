@@ -30,7 +30,7 @@ cars = initialize_cars()
 def get_cars():
     return cars
 
-# Добавить новую машину
+
 @app.post("/cars", response_model=Car)
 def add_car(car: Car):
     if any(c.id == car.id for c in cars):
@@ -38,7 +38,7 @@ def add_car(car: Car):
     cars.append(car)
     return car
 
-# Получить машину по ID
+
 @app.get("/cars/{car_id}", response_model=Car)
 def get_car(car_id: int):
     car = next((car for car in cars if car.id == car_id), None)
@@ -46,14 +46,11 @@ def get_car(car_id: int):
         raise HTTPException(status_code=404, detail="Car not found")
     return car
 
-# Удалить машину по ID
+
 @app.delete("/cars/{car_id}", response_model=dict)
 def delete_car(car_id: int):
     global cars
     cars = [car for car in cars if car.id != car_id]
     return {"message": "Car deleted"}
 
-# Запуск приложения (вместо этого вы можете использовать uvicorn из командной строки)
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+
